@@ -81,6 +81,16 @@ type NodeCollector struct {
 	logger     log.Logger
 }
 
+// EnableDefaultCollectors sets the collector state to true for all collectors which
+// have not been explicitly disabled on the command line.
+func EnableDefaultCollectors() {
+	for c := range collectorState {
+		if _, ok := forcedCollectors[c]; !ok {
+			*collectorState[c] = true
+		}
+	}
+}
+
 // DisableDefaultCollectors sets the collector state to false for all collectors which
 // have not been explicitly enabled on the command line.
 func DisableDefaultCollectors() {
